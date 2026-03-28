@@ -1,56 +1,34 @@
 import React,{useEffect,useState} from "react";
 import { Link } from "react-router-dom";
-import API from "./api/api";
 
 export default function References(){
 
   const [refs,setRefs]=useState([]);
 
-  const loadReferences = () => {
-
-    API.get("/references")
-
-      .then(res => {
-
-        setRefs(res.data.data);
-
-      })
-
-      .catch(err => {
-
-        console.log(err);
-
-      });
-
-  };
-
-
   useEffect(()=>{
 
-    loadReferences();
+    const saved =
+      JSON.parse(localStorage.getItem("references")) || [];
+
+    setRefs(saved);
 
   },[]);
 
 
+  const deleteReference=(id)=>{
 
-  const deleteReference = async (id) => {
+    const updatedRefs = refs.filter(
+      ref => ref.id !== id
+    );
 
-    try{
+    localStorage.setItem(
+      "references",
+      JSON.stringify(updatedRefs)
+    );
 
-      await API.delete(`/references/${id}`);
-
-      alert("Reference deleted");
-
-      loadReferences();
-
-    }catch(err){
-
-      console.log(err);
-
-    }
+    setRefs(updatedRefs);
 
   };
-
 
 
   return(
@@ -65,20 +43,18 @@ export default function References(){
 
       {refs.map(ref=>(
 
-        <div key={ref._id} className="card">
+        <div key={ref.id} className="card">
 
           <h3>{ref.title}</h3>
 
-
-          <Link to={`/edit-reference/${ref._id}`}>
+          <Link to={`/edit-reference/${ref.id}`}>
             <button style={{marginTop:"10px"}}>
               Edit
             </button>
           </Link>
 
-
           <button
-            onClick={()=>deleteReference(ref._id)}
+            onClick={()=>deleteReference(ref.id)}
             style={{marginTop:"10px"}}
           >
             Delete

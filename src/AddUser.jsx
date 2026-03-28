@@ -1,35 +1,35 @@
 import React, { useState } from "react";
-import API from "./api/api";
 
 export default function AddUser(){
 
-  const [name,setName]=useState("");
+  const [text,setText]=useState("");
 
-  const handleSubmit = async (e)=>{
+  const handleSubmit=(e)=>{
 
     e.preventDefault();
 
-    try{
+    const existing =
+      JSON.parse(localStorage.getItem("users")) || [];
 
-      await API.post("/users",{
+    const newUser={
 
-        data:{
-          name:name
-        }
+      id:Date.now(),
 
-      });
+      name:text
 
-      alert("User added successfully");
+    };
 
-      setName("");
+    localStorage.setItem(
 
-    }catch(err){
+      "users",
 
-      console.log(err);
+      JSON.stringify([...existing,newUser])
 
-      alert("Error adding user");
+    );
 
-    }
+    alert("Successfully added!");
+
+    setText("");
 
   };
 
@@ -43,11 +43,11 @@ export default function AddUser(){
 
         <input
 
-          placeholder="Enter user name"
+          placeholder="Type anything"
 
-          value={name}
+          value={text}
 
-          onChange={(e)=>setName(e.target.value)}
+          onChange={(e)=>setText(e.target.value)}
 
           required
 

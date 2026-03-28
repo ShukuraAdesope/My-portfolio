@@ -1,35 +1,35 @@
 import React,{useState} from "react";
-import API from "./api/api";
 
 export default function AddReference(){
 
-  const [title,setTitle]=useState("");
+  const [text,setText]=useState("");
 
-  const handleSubmit = async (e)=>{
+  const handleSubmit=(e)=>{
 
     e.preventDefault();
 
-    try{
+    const existing =
+      JSON.parse(localStorage.getItem("references")) || [];
 
-      await API.post("/references",{
+    const newRef={
 
-        data:{
-          title:title
-        }
+      id:Date.now(),
 
-      });
+      title:text
 
-      alert("Reference added successfully");
+    };
 
-      setTitle("");
+    localStorage.setItem(
 
-    }catch(err){
+      "references",
 
-      console.log(err);
+      JSON.stringify([...existing,newRef])
 
-      alert("Error adding reference");
+    );
 
-    }
+    alert("Successfully added!");
+
+    setText("");
 
   };
 
@@ -43,11 +43,11 @@ export default function AddReference(){
 
         <input
 
-          placeholder="Enter reference"
+          placeholder="Type anything"
 
-          value={title}
+          value={text}
 
-          onChange={(e)=>setTitle(e.target.value)}
+          onChange={(e)=>setText(e.target.value)}
 
           required
 
