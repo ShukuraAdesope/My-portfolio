@@ -20,6 +20,8 @@ import References from "./References";
 import AddReference from "./AddReference";
 import EditReference from "./EditReference";
 
+import EditContact from "./EditContact";
+
 import profile from "./IMG_4499.jpeg";
 
 import "./App.css";
@@ -116,6 +118,11 @@ export default function App() {
         <Route path="/references" element={<References />} />
         <Route path="/add-reference" element={<AddReference />} />
         <Route path="/edit-reference/:id" element={<EditReference />} />
+
+
+        {/* CONTACT CRUD */}
+
+        <Route path="/edit-contact/:id" element={<EditContact />} />
 
       </Routes>
 
