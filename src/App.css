@@ -1,226 +1,539 @@
 /* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 /* GLOBAL */
-body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background-color: #fff5f8;
-  color: #333;
+body{
+
+  font-family:"Segoe UI", Arial, sans-serif;
+
+  background:#fff5f8;
+
+  color:#333;
+
 }
 
-.app {
-  width: 100%;
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+
+  background:white;
+
+  padding:18px 40px;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  border-bottom:3px solid #f4b6c2;
+
+  position:sticky;
+
+  top:0;
+
+  z-index:100;
+
 }
 
-/* =========================
-   NAVBAR
-========================= */
-.navbar {
-  background-color: #ffffff;
-  padding: 16px 32px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 3px solid #f4b6c2;
+
+.logo{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  font-size:22px;
+
+  font-weight:600;
+
+  color:#d63384;
+
 }
 
-.logo {
-  font-weight: bold;
-  color: #c2185b;
+
+.logo-img{
+
+  width:45px;
+
+  height:45px;
+
+  border-radius:50%;
+
+  object-fit:cover;
+
+  border:2px solid #d63384;
+
 }
 
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 20px;
+
+.nav-links{
+
+  list-style:none;
+
+  display:flex;
+
+  gap:22px;
+
+  flex-wrap:wrap;
+
 }
 
-.nav-links a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
+
+.nav-links a{
+
+  text-decoration:none;
+
+  color:#444;
+
+  font-weight:500;
+
+  transition:0.2s;
+
 }
 
-.nav-links a:hover {
-  color: #c2185b;
+
+.nav-links a:hover{
+
+  color:#d63384;
+
 }
 
-/* =========================
-   FOOTER
-========================= */
-.footer {
-  background-color: #f4b6c2;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  margin-top: 80px;
+
+/* ================= FOOTER ================= */
+
+.footer{
+
+  background:#f4b6c2;
+
+  color:white;
+
+  text-align:center;
+
+  padding:18px;
+
+  margin-top:80px;
+
 }
 
-/* =========================
-   PAGE CONTAINERS (FIXES SIDE SPACE)
-========================= */
-.home,
-.about-page,
-.projects-page,
-.services-page,
-.contact-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 80px 20px;
+
+/* ================= PAGE LAYOUT ================= */
+
+.page,
+.form-page{
+
+  max-width:900px;
+
+  margin:60px auto;
+
+  padding:40px;
+
+  background:white;
+
+  border-radius:14px;
+
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+
 }
 
-/* =========================
-   HOME PAGE
-========================= */
-.home {
-  text-align: center;
+
+/* ================= HEADINGS ================= */
+
+.page h1,
+.form-page h2{
+
+  text-align:center;
+
+  margin-bottom:30px;
+
+  color:#333;
+
+  font-weight:600;
+
 }
 
-/* STAMP AT TOP */
-.home-stamp {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 40px;
+
+/* ================= FORM ================= */
+
+form{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:18px;
+
 }
 
-.home-stamp img {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 6px solid #f4a6c1;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+
+input,
+textarea{
+
+  padding:14px;
+
+  border-radius:10px;
+
+  border:1px solid #eee;
+
+  font-size:15px;
+
+  transition:0.2s;
+
 }
 
-/* HOME TEXT */
-.hero-title {
-  font-size: 2.6rem;
-  color: #c2185b;
+
+input:focus,
+textarea:focus{
+
+  outline:none;
+
+  border-color:#d63384;
+
+  box-shadow:0 0 0 3px rgba(214,51,132,0.12);
+
 }
 
-.highlight {
-  color: #f06292;
+
+/* ================= BUTTON ================= */
+
+button{
+
+  padding:12px 20px;
+
+  background:#d63384;
+
+  color:white;
+
+  border:none;
+
+  border-radius:8px;
+
+  font-size:15px;
+
+  cursor:pointer;
+
+  transition:0.2s;
+
+  align-self:flex-start;
+
 }
 
-.hero-subtitle {
-  margin: 20px auto;
-  max-width: 600px;
-  line-height: 1.6;
+
+button:hover{
+
+  background:#b62d6d;
+
+  transform:translateY(-1px);
+
 }
 
-/* =========================
-   ABOUT PAGE
-========================= */
-.about-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 60px;
-  flex-wrap: wrap;
+
+/* ================= CARD DESIGN ================= */
+
+.card{
+
+  padding:20px 24px;
+
+  margin-bottom:16px;
+
+  background:white;
+
+  border-radius:12px;
+
+  border:1px solid #eee;
+
+  transition:0.2s;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
 }
 
-.about-text {
-  max-width: 600px;
+
+.card:hover{
+
+  transform:translateY(-4px);
+
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+
 }
 
-/* SLIGHTLY REDUCED ABOUT IMAGE */
-.about-stamp img {
-  width: 190px;
-  height: 190px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 6px solid #f4a6c1;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+.card h3{
+
+  color:#d63384;
+
+  font-size:17px;
+
 }
 
-.resume-btn {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 18px;
-  background-color: #f06292;
-  color: white;
-  text-decoration: none;
-  border-radius: 20px;
+
+.card p{
+
+  color:#666;
+
+  font-size:14px;
+
 }
 
-/* =========================
-   PROJECTS
-========================= */
-.projects-header {
-  text-align: center;
-  margin-bottom: 40px;
+
+.card button{
+
+  padding:6px 12px;
+
+  font-size:13px;
+
 }
 
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 25px;
+
+/* ================= HOME ================= */
+
+.home{
+
+  text-align:center;
+
+  max-width:1000px;
+
+  margin:auto;
+
+  padding:70px 20px;
+
 }
 
-/* =========================
-   SERVICES (CENTERED)
-========================= */
-.services-header {
-  text-align: center;
-  margin-bottom: 40px;
+
+.home-stamp{
+
+  display:flex;
+
+  justify-content:center;
+
+  margin-bottom:40px;
+
 }
 
-.services-grid {
-  max-width: 900px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
+
+.home-stamp img{
+
+  width:170px;
+
+  height:170px;
+
+  border-radius:50%;
+
+  object-fit:cover;
+
+  border:6px solid #f4a6c1;
+
+  box-shadow:0 10px 30px rgba(0,0,0,0.18);
+
 }
 
-/* =========================
-   CONTACT (CENTERED)
-========================= */
-.contact-header {
-  text-align: center;
-  margin-bottom: 40px;
+
+.hero-title{
+
+  font-size:2.4rem;
+
+  color:#d63384;
+
 }
 
-.contact-info {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-  margin-bottom: 40px;
+
+.highlight{
+
+  color:#f06292;
+
 }
 
-.contact-item {
-  background: white;
-  padding: 20px;
-  border-radius: 20px;
-  width: 250px;
-  text-align: center;
+
+.hero-subtitle{
+
+  margin:20px auto;
+
+  max-width:600px;
+
+  line-height:1.6;
+
 }
 
-.contact-form {
-  max-width: 400px;
-  margin: 0 auto;
+
+/* ================= ABOUT ================= */
+
+.about-container{
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:60px;
+
+  flex-wrap:wrap;
+
 }
 
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #f4b6c2;
+
+.about-text{
+
+  max-width:600px;
+
 }
 
-.contact-form button {
-  width: 100%;
-  background-color: #f06292;
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 25px;
-  cursor: pointer;
+
+/* SMALLER ABOUT IMAGE */
+
+.about-stamp img{
+
+  width:140px;
+
+  height:140px;
+
+  border-radius:50%;
+
+  object-fit:cover;
+
+  border:5px solid #f4a6c1;
+
+  box-shadow:0 6px 18px rgba(0,0,0,0.12);
+
+}
+
+
+.resume-btn{
+
+  display:inline-block;
+
+  margin-top:20px;
+
+  padding:10px 18px;
+
+  background:#f06292;
+
+  color:white;
+
+  text-decoration:none;
+
+  border-radius:20px;
+
+}
+
+
+/* ================= GRID PAGES ================= */
+
+.projects-grid,
+.services-grid{
+
+  display:grid;
+
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+
+  gap:25px;
+
+}
+
+
+.projects-header,
+.services-header,
+.contact-header{
+
+  text-align:center;
+
+  margin-bottom:40px;
+
+}
+
+
+/* ================= CONTACT ================= */
+
+.contact-info{
+
+  display:flex;
+
+  justify-content:center;
+
+  gap:30px;
+
+  flex-wrap:wrap;
+
+  margin-bottom:40px;
+
+}
+
+
+.contact-item{
+
+  background:white;
+
+  padding:20px;
+
+  border-radius:20px;
+
+  width:250px;
+
+  text-align:center;
+
+  box-shadow:0 4px 12px rgba(0,0,0,0.06);
+
+}
+
+
+.contact-form{
+
+  max-width:420px;
+
+  margin:auto;
+
+}
+
+
+/* ================= EMPTY TEXT ================= */
+
+.page p{
+
+  text-align:center;
+
+  color:#777;
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+.navbar{
+
+  flex-direction:column;
+
+  gap:15px;
+
+  text-align:center;
+
+}
+
+.nav-links{
+
+  justify-content:center;
+
+}
+
+.page,
+.form-page{
+
+  margin:20px;
+
+  padding:25px;
+
+}
+
 }

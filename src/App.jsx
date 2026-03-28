@@ -1,41 +1,137 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { HashRouter, Routes, Route, Link } from "react-router-dom";
 
-import Home from "./Home.jsx";
-import About from "./About.jsx";
-import Projects from "./Projects.jsx";
-import Services from "./Services.jsx";
-import Contact from "./Contact.jsx";
+import Home from "./Home";
+import About from "./About";
+import Projects from "./Projects";
+import Services from "./Services";
+import Contact from "./Contact";
+
+import AddProject from "./AddProject";
+import EditProject from "./EditProject";
+
+import AddService from "./AddService";
+import EditService from "./EditService";
+
+import Users from "./Users";
+import AddUser from "./AddUser";
+import EditUser from "./EditUser";
+
+import References from "./References";
+import AddReference from "./AddReference";
+import EditReference from "./EditReference";
+
+import profile from "./IMG_4499.jpeg";
 
 import "./App.css";
 
 export default function App() {
+
   return (
-    <Router>
+
+    <HashRouter>
+
       {/* NAVBAR */}
+
       <nav className="navbar">
-        <h2 className="logo">Shukura Adesope</h2>
+
+        <div className="logo">
+
+          <img
+            src={profile}
+            alt="Shukura Adesope"
+            className="logo-img"
+          />
+
+          <span>
+            Shukura Adesope
+          </span>
+
+        </div>
+
+
         <ul className="nav-links">
+
           <li><Link to="/">Home</Link></li>
+
           <li><Link to="/about">About</Link></li>
+
           <li><Link to="/projects">Projects</Link></li>
+
           <li><Link to="/services">Services</Link></li>
+
           <li><Link to="/contact">Contact</Link></li>
+
+          <li><Link to="/users">Users</Link></li>
+
+          <li><Link to="/references">References</Link></li>
+
+          <li><Link to="/add-project">Add Project</Link></li>
+
+          <li><Link to="/add-service">Add Service</Link></li>
+
+          <li><Link to="/add-user">Add User</Link></li>
+
+          <li><Link to="/add-reference">Add Reference</Link></li>
+
         </ul>
+
       </nav>
 
+
+
       {/* ROUTES */}
+
       <Routes>
+
+        {/* MAIN PAGES */}
+
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
+
+
+        {/* PROJECT CRUD */}
+
+        <Route path="/add-project" element={<AddProject />} />
+        <Route path="/edit-project/:id" element={<EditProject />} />
+
+
+        {/* SERVICE CRUD */}
+
+        <Route path="/add-service" element={<AddService />} />
+        <Route path="/edit-service/:id" element={<EditService />} />
+
+
+        {/* USER CRUD */}
+
+        <Route path="/users" element={<Users />} />
+        <Route path="/add-user" element={<AddUser />} />
+        <Route path="/edit-user/:id" element={<EditUser />} />
+
+
+        {/* REFERENCE CRUD */}
+
+        <Route path="/references" element={<References />} />
+        <Route path="/add-reference" element={<AddReference />} />
+        <Route path="/edit-reference/:id" element={<EditReference />} />
+
       </Routes>
 
+
+
       {/* FOOTER */}
+
       <footer className="footer">
-        © 2026 Shukura Adesope | Software Engineering Student
+
+        © 2026 Shukura Adesope
+
       </footer>
-    </Router>
+
+
+    </HashRouter>
+
   );
+
 }
