@@ -1,33 +1,53 @@
 import React,{useEffect,useState} from "react";
 import { Link } from "react-router-dom";
+import API from "./api/api";
 
 export default function Users(){
 
   const [users,setUsers]=useState([]);
 
+  const loadUsers = () => {
+
+    API.get("/users")
+
+      .then(res => {
+
+        setUsers(res.data.data);
+
+      })
+
+      .catch(err => {
+
+        console.log(err);
+
+      });
+
+  };
+
+
   useEffect(()=>{
 
-    const savedUsers =
-      JSON.parse(localStorage.getItem("users")) || [];
-
-    setUsers(savedUsers);
+    loadUsers();
 
   },[]);
 
 
 
-  const deleteUser=(id)=>{
+  const deleteUser = async (id) => {
 
-    const updatedUsers = users.filter(
-      user=>user.id !== id
-    );
+    try{
 
-    localStorage.setItem(
-      "users",
-      JSON.stringify(updatedUsers)
-    );
+      await API.delete(`/users/${id}`);
 
-    setUsers(updatedUsers);
+      alert("User deleted");
+
+      loadUsers();
+
+    }catch(err){
+
+      console.log(err);
+
+    }
 
   };
 
@@ -45,13 +65,12 @@ export default function Users(){
 
       {users.map(user=>(
 
-        <div key={user.id} className="card">
+        <div key={user._id} className="card">
 
           <h3>{user.name}</h3>
 
 
-          {/* Edit button added */}
-          <Link to={`/edit-user/${user.id}`}>
+          <Link to={`/edit-user/${user._id}`}>
             <button style={{marginTop:"10px"}}>
               Edit
             </button>
@@ -59,7 +78,7 @@ export default function Users(){
 
 
           <button
-            onClick={()=>deleteUser(user.id)}
+            onClick={()=>deleteUser(user._id)}
             style={{marginTop:"10px"}}
           >
             Delete

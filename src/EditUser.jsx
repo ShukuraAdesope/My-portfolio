@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import API from "./api/api";
 
 export default function EditUser() {
 
@@ -8,55 +9,53 @@ export default function EditUser() {
 
   const [name, setName] = useState("");
 
-  // load selected user
+  // load selected user from backend
   useEffect(() => {
 
-    const savedUsers =
-      JSON.parse(localStorage.getItem("users")) || [];
+    const fetchUser = async () => {
 
-    const userToEdit =
-      savedUsers.find(user => String(user.id) === String(id));
+      try{
 
-    if (userToEdit) {
+        const res = await API.get(`/users/${id}`);
 
-      setName(userToEdit.name || "");
+        const user = res.data.data || res.data;
 
-    }
+        setName(user.name || "");
+
+      }catch(err){
+
+        console.log(err);
+
+      }
+
+    };
+
+    fetchUser();
 
   }, [id]);
 
 
-  const updateUser = (e) => {
+  const updateUser = async (e) => {
 
     e.preventDefault();
 
-    const savedUsers =
-      JSON.parse(localStorage.getItem("users")) || [];
+    try{
 
-    const updatedUsers =
-      savedUsers.map(user => {
+      await API.put(`/users/${id}`,{
 
-        if (String(user.id) === String(id)) {
-
-          return {
-            ...user,
-            name: name
-          };
-
-        }
-
-        return user;
+        name
 
       });
 
-    localStorage.setItem(
-      "users",
-      JSON.stringify(updatedUsers)
-    );
+      alert("User updated successfully");
 
-    alert("User updated successfully");
+      navigate("/users");
 
-    navigate("/users");
+    }catch(err){
+
+      console.log(err);
+
+    }
 
   };
 

@@ -1,33 +1,33 @@
 import React, { useState } from "react";
+import API from "./api/api";
 
 export default function AddUser(){
 
   const [text,setText]=useState("");
 
-  const handleSubmit=(e)=>{
+  const handleSubmit = async (e)=>{
 
     e.preventDefault();
 
-    const existing = JSON.parse(localStorage.getItem("users")) || [];
+    try{
 
-    const newUser = {
+      await API.post("/users",{
 
-      id: Date.now(),
-      name: text
+        name: text
 
-    };
+      });
 
-    localStorage.setItem(
+      alert("Successfully added!");
 
-      "users",
+      setText("");
 
-      JSON.stringify([...existing,newUser])
+    }catch(err){
 
-    );
+      console.log(err);
 
-    alert("Successfully added!");
+      alert("Error adding user");
 
-    setText("");
+    }
 
   };
 

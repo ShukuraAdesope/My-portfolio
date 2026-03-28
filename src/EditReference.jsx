@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import API from "./api/api";
 
 export default function EditReference() {
 
@@ -8,55 +9,53 @@ export default function EditReference() {
 
   const [title, setTitle] = useState("");
 
-  // load selected reference
+  // load selected reference from backend
   useEffect(() => {
 
-    const savedReferences =
-      JSON.parse(localStorage.getItem("references")) || [];
+    const fetchReference = async () => {
 
-    const referenceToEdit =
-      savedReferences.find(ref => String(ref.id) === String(id));
+      try{
 
-    if (referenceToEdit) {
+        const res = await API.get(`/references/${id}`);
 
-      setTitle(referenceToEdit.title || "");
+        const reference = res.data.data || res.data;
 
-    }
+        setTitle(reference.title || "");
+
+      }catch(err){
+
+        console.log(err);
+
+      }
+
+    };
+
+    fetchReference();
 
   }, [id]);
 
 
-  const updateReference = (e) => {
+  const updateReference = async (e) => {
 
     e.preventDefault();
 
-    const savedReferences =
-      JSON.parse(localStorage.getItem("references")) || [];
+    try{
 
-    const updatedReferences =
-      savedReferences.map(ref => {
+      await API.put(`/references/${id}`,{
 
-        if (String(ref.id) === String(id)) {
-
-          return {
-            ...ref,
-            title: title
-          };
-
-        }
-
-        return ref;
+        title
 
       });
 
-    localStorage.setItem(
-      "references",
-      JSON.stringify(updatedReferences)
-    );
+      alert("Reference updated successfully");
 
-    alert("Reference updated successfully");
+      navigate("/references");
 
-    navigate("/references");
+    }catch(err){
+
+      console.log(err);
+
+    }
 
   };
 
