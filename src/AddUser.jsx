@@ -3,7 +3,7 @@ import API from "./api/api";
 
 export default function AddUser(){
 
-  const [text,setText]=useState("");
+  const [name,setName]=useState("");
 
   const handleSubmit = async (e)=>{
 
@@ -13,13 +13,15 @@ export default function AddUser(){
 
       await API.post("/users",{
 
-        name: text
+        data:{
+          name:name
+        }
 
       });
 
-      alert("Successfully added!");
+      alert("User added successfully");
 
-      setText("");
+      setName("");
 
     }catch(err){
 
@@ -41,11 +43,11 @@ export default function AddUser(){
 
         <input
 
-          placeholder="Type anything"
+          placeholder="Enter user name"
 
-          value={text}
+          value={name}
 
-          onChange={(e)=>setText(e.target.value)}
+          onChange={(e)=>setName(e.target.value)}
 
           required
 

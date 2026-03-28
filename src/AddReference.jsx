@@ -3,7 +3,7 @@ import API from "./api/api";
 
 export default function AddReference(){
 
-  const [text,setText]=useState("");
+  const [title,setTitle]=useState("");
 
   const handleSubmit = async (e)=>{
 
@@ -13,13 +13,15 @@ export default function AddReference(){
 
       await API.post("/references",{
 
-        title: text
+        data:{
+          title:title
+        }
 
       });
 
-      alert("Successfully added!");
+      alert("Reference added successfully");
 
-      setText("");
+      setTitle("");
 
     }catch(err){
 
@@ -41,11 +43,11 @@ export default function AddReference(){
 
         <input
 
-          placeholder="Type anything"
+          placeholder="Enter reference"
 
-          value={text}
+          value={title}
 
-          onChange={(e)=>setText(e.target.value)}
+          onChange={(e)=>setTitle(e.target.value)}
 
           required
 
