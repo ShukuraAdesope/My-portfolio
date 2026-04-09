@@ -2,32 +2,38 @@ describe("Authentication Test", () => {
 
  it("User can signup and login", () => {
 
-  const email = "user" + Date.now() + "@test.com";
+  const email = `user${Date.now()}@test.com`
 
-  // signup
-  cy.visit("https://my-portfolio-frontend-ur2g.onrender.com/#/signup");
+  // SIGNUP
+  cy.visit("https://my-portfolio-frontend-ur2g.onrender.com/#/signup")
 
-  cy.get("input[placeholder='firstname']").type("Test");
-  cy.get("input[placeholder='lastname']").type("User");
-  cy.get("input[placeholder='email']").type(email);
-  cy.get("input[placeholder='password']").type("123456");
+  cy.get("input[placeholder='firstname']").type("Test")
 
-  cy.contains("Signup").click();
+  cy.get("input[placeholder='lastname']").type("User")
 
+  cy.get("input[placeholder='email']").type(email)
 
-  // login
-  cy.visit("https://my-portfolio-frontend-ur2g.onrender.com/#/signin");
+  cy.get("input[placeholder='password']").type("123456")
 
-  cy.get("input[placeholder='email']").type(email);
-  cy.get("input[placeholder='password']").type("123456");
-
-  cy.contains("Login").click();
+  cy.contains("Signup").click()
 
 
-  // dashboard
-  cy.visit("https://my-portfolio-frontend-ur2g.onrender.com/#/dashboard");
+  // manually go to login page (no redirect needed)
+  cy.visit("https://my-portfolio-frontend-ur2g.onrender.com/#/signin")
 
-  cy.contains("Dashboard");
+
+  // LOGIN
+  cy.get("input[placeholder='email']").type(email)
+
+  cy.get("input[placeholder='password']").type("123456")
+
+  cy.contains("Login").click()
+
+
+  // go to dashboard
+  cy.visit("https://my-portfolio-frontend-ur2g.onrender.com/#/dashboard")
+
+  cy.contains("Dashboard")
 
  });
 

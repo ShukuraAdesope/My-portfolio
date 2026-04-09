@@ -14,35 +14,43 @@ function Signup(){
  const [message,setMessage] = useState("");
  const [error,setError] = useState("");
 
- const handleSubmit = async(e)=>{
+ const handleSubmit = async (e) => {
 
   e.preventDefault();
 
-  try{
+  // clear old messages before new request
+  setMessage("");
+  setError("");
 
-   await axios.post(
+  try {
+
+   const response = await axios.post(
     "https://portfolio-backend-i1c6.onrender.com/api/auth/signup",
     {
-     firstname,
-     lastname,
-     email,
-     password
+     firstname: firstname,
+     lastname: lastname,
+     email: email,
+     password: password
     }
    );
 
-   setError("");
-   setMessage("Signup successful! Redirecting to login...");
+   console.log(response.data);
 
-   setTimeout(()=>{
+   // show success message
+   setMessage("Signup successful!");
+
+   // redirect to signin page
+   setTimeout(() => {
+
     navigate("/signin");
-   },1500);
+
+   }, 800);
 
   }
-  catch(err){
+  catch (err) {
 
    console.error(err.response?.data || err.message);
 
-   setMessage("");
    setError("Signup failed. Try a different email.");
 
   }
@@ -55,15 +63,17 @@ function Signup(){
 
    <h2>Signup</h2>
 
+   {/* SUCCESS MESSAGE */}
    {message && (
 
     <div style={{
      background:"#d4edda",
-     padding:"12px",
-     borderRadius:"8px",
-     marginBottom:"10px",
      color:"#155724",
-     fontWeight:"bold"
+     padding:"12px",
+     borderRadius:"6px",
+     marginBottom:"12px",
+     fontWeight:"bold",
+     border:"1px solid #c3e6cb"
     }}>
 
      {message}
@@ -72,15 +82,17 @@ function Signup(){
 
    )}
 
+   {/* ERROR MESSAGE */}
    {error && (
 
     <div style={{
      background:"#f8d7da",
-     padding:"12px",
-     borderRadius:"8px",
-     marginBottom:"10px",
      color:"#721c24",
-     fontWeight:"bold"
+     padding:"12px",
+     borderRadius:"6px",
+     marginBottom:"12px",
+     fontWeight:"bold",
+     border:"1px solid #f5c6cb"
     }}>
 
      {error}
@@ -107,6 +119,7 @@ function Signup(){
 
     <input
      placeholder="email"
+     type="email"
      value={email}
      onChange={(e)=>setEmail(e.target.value)}
      required
