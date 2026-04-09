@@ -1,9 +1,10 @@
-import {useState} from "react";
+import { useState } from "react";
 import axios from "axios";
 
 function Signup(){
 
- const [username,setUsername] = useState("");
+ const [firstname,setFirstname] = useState("");
+ const [lastname,setLastname] = useState("");
  const [email,setEmail] = useState("");
  const [password,setPassword] = useState("");
 
@@ -12,15 +13,13 @@ function Signup(){
   e.preventDefault();
 
   await axios.post(
-
    "https://portfolio-backend-i1c6.onrender.com/api/auth/signup",
-
    {
-    username,
+    firstname,
+    lastname,
     email,
     password
    }
-
   );
 
   alert("signup success");
@@ -32,9 +31,15 @@ function Signup(){
   <form onSubmit={handleSubmit}>
 
    <input
-    placeholder="username"
-    value={username}
-    onChange={(e)=>setUsername(e.target.value)}
+    placeholder="firstname"
+    value={firstname}
+    onChange={(e)=>setFirstname(e.target.value)}
+   />
+
+   <input
+    placeholder="lastname"
+    value={lastname}
+    onChange={(e)=>setLastname(e.target.value)}
    />
 
    <input
