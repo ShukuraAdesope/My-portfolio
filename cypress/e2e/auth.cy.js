@@ -1,29 +1,62 @@
 describe("Authentication Test", () => {
 
- it("User can login", () => {
+ it("User can signup and login", () => {
 
-  cy.visit("https://my-portfolio-frontend-ur2g.onrender.com/#/signup")
+  const email = "test" + Date.now() + "@mail.com";
+  const password = "123456";
 
-  cy.get("input[placeholder='firstname']").type("Test")
-  cy.get("input[placeholder='lastname']").type("User")
-  cy.get("input[placeholder='email']").type("final@test.com")
-  cy.get("input[placeholder='password']").type("123456")
+  // SIGNUP
+  cy.visit("https://my-portfolio-frontend-ur2g.onrender.com/#/signup");
 
-  cy.get("button").click()
+  cy.get("input[placeholder='firstname']")
+   .should("exist")
+   .clear()
+   .type("Test");
+
+  cy.get("input[placeholder='lastname']")
+   .should("exist")
+   .clear()
+   .type("User");
+
+  cy.get("input[placeholder='email']")
+   .should("exist")
+   .clear()
+   .type(email);
+
+  cy.get("input[placeholder='password']")
+   .should("exist")
+   .clear()
+   .type(password);
+
+  cy.contains("button","Signup")
+   .should("exist")
+   .click();
 
 
-  cy.visit("https://my-portfolio-frontend-ur2g.onrender.com/#/signin")
+  // SIGNIN
+  cy.visit("https://my-portfolio-frontend-ur2g.onrender.com/#/signin");
 
-  cy.get("input[placeholder='email']").type("final@test.com")
-  cy.get("input[placeholder='password']").type("123456")
+  cy.get("input[placeholder='email']")
+   .should("exist")
+   .clear()
+   .type(email);
 
-  cy.get("button").click()
+  cy.get("input[placeholder='password']")
+   .should("exist")
+   .clear()
+   .type(password);
+
+  cy.contains("button","Login")
+   .should("exist")
+   .click();
 
 
-  cy.visit("https://my-portfolio-frontend-ur2g.onrender.com/#/dashboard")
+  // DASHBOARD
+  cy.visit("https://my-portfolio-frontend-ur2g.onrender.com/#/dashboard");
 
   cy.contains("Dashboard")
+   .should("be.visible");
 
- })
+ });
 
-})
+});
