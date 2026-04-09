@@ -12,17 +12,28 @@ function Signup(){
 
   e.preventDefault();
 
-  await axios.post(
-   "https://portfolio-backend-i1c6.onrender.com/api/auth/signup",
-   {
-    firstname,
-    lastname,
-    email,
-    password
-   }
-  );
+  try{
 
-  alert("signup success");
+   await axios.post(
+    "https://portfolio-backend-i1c6.onrender.com/api/auth/signup",
+    {
+     firstname,
+     lastname,
+     email,
+     password
+    }
+   );
+
+   alert("Signup successful");
+
+  }
+  catch(error){
+
+   console.log(error.response?.data);
+
+   alert("Signup failed");
+
+  }
 
  };
 
