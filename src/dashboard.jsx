@@ -1,76 +1,40 @@
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Dashboard(){
 
- const navigate = useNavigate();
-
  const token = localStorage.getItem("token");
 
-
- // if user not logged in
  if(!token){
 
   return(
 
-   <div>
+   <main className="page">
 
     <h2>Login Required</h2>
 
     <p>Please login to access dashboard.</p>
 
-    <button
-     onClick={() => navigate("/signin")}
-    >
+    <Link to="/signin">
 
-     Go to Login
+     <button>Go to Login</button>
 
-    </button>
+    </Link>
 
-   </div>
+   </main>
 
   );
 
  }
 
-
- // if logged in
  return(
 
-  <div>
+  <main className="page">
 
    <h2>Dashboard</h2>
 
-   <p>You are logged in.</p>
+   <p>You are logged in successfully 🎉</p>
 
-   <p>You can now manage:</p>
-
-   <ul>
-
-    <li>Projects</li>
-
-    <li>Services</li>
-
-    <li>References</li>
-
-   </ul>
-
-
-   <button
-    onClick={() => {
-
-     localStorage.removeItem("token");
-
-     navigate("/signin");
-
-    }}
-   >
-
-    Logout
-
-   </button>
-
-
-  </div>
+  </main>
 
  );
 

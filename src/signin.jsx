@@ -8,8 +8,7 @@ function Signin(){
 
  const [email,setEmail] = useState("");
  const [password,setPassword] = useState("");
- const [error,setError] = useState("");
-
+ const [message,setMessage] = useState("");
 
  const handleSubmit = async(e)=>{
 
@@ -18,98 +17,58 @@ function Signin(){
   try{
 
    const res = await axios.post(
-
     "https://portfolio-backend-i1c6.onrender.com/api/auth/signin",
-
     {
      email,
      password
     }
-
    );
 
-   // save token
-   localStorage.setItem(
+   localStorage.setItem("token", res.data.token);
 
-    "token",
-    res.data.token
+   setMessage("Login successful ✅");
 
-   );
-
-   alert("Login successful");
-
-   // redirect to dashboard
-   navigate("/dashboard");
+   setTimeout(()=>{
+    navigate("/dashboard");
+   },1500);
 
   }
-  catch(err){
+  catch(error){
 
-   console.log(err);
-
-   setError("Invalid email or password");
+   setMessage("Login failed ❌");
 
   }
 
  };
 
-
  return(
 
-  <div>
+  <main className="page">
 
    <h2>Login</h2>
+
+   {message && <p>{message}</p>}
 
    <form onSubmit={handleSubmit}>
 
     <input
-
-     placeholder="Email"
-
+     placeholder="email"
      value={email}
-
      onChange={(e)=>setEmail(e.target.value)}
-
-     required
-
     />
-
-
 
     <input
-
      type="password"
-
-     placeholder="Password"
-
+     placeholder="password"
      value={password}
-
      onChange={(e)=>setPassword(e.target.value)}
-
-     required
-
     />
 
-
-    <button type="submit">
-
-     Login
-
-    </button>
+    <button>Login</button>
 
    </form>
 
-
-   {error && (
-
-    <p style={{color:"red"}}>
-
-     {error}
-
-    </p>
-
-   )}
-
-  </div>
+  </main>
 
  );
 
