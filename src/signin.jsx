@@ -16,30 +16,29 @@ function Signin(){
 
   try{
 
-   const res = await axios.post(
+   const response = await axios.post(
     "https://portfolio-backend-i1c6.onrender.com/api/auth/signin",
     {
-     email,
-     password
+     email: email,
+     password: password
     }
    );
 
-   localStorage.setItem("token", res.data.token);
+   // save token
+   localStorage.setItem("token", response.data.token);
 
+   // show success message
    setMessage("Login successful");
 
-   setTimeout(()=>{
-
-    navigate("/dashboard");
-
-   },1000);
+   // redirect immediately (no delay needed)
+   navigate("/dashboard");
 
   }
   catch(error){
 
-   console.log(error);
+   console.error(error.response?.data || error.message);
 
-   setMessage("Login failed");
+   setMessage("Invalid email or password");
 
   }
 
@@ -51,7 +50,15 @@ function Signin(){
 
    <h2>Login</h2>
 
-   {message && <p>{message}</p>}
+   {message && (
+
+    <p style={{color:"green"}}>
+
+     {message}
+
+    </p>
+
+   )}
 
    <form onSubmit={handleSubmit}>
 
@@ -59,6 +66,7 @@ function Signin(){
      placeholder="email"
      value={email}
      onChange={(e)=>setEmail(e.target.value)}
+     required
     />
 
     <input
@@ -66,9 +74,14 @@ function Signin(){
      placeholder="password"
      value={password}
      onChange={(e)=>setPassword(e.target.value)}
+     required
     />
 
-    <button type="submit">Login</button>
+    <button type="submit">
+
+     Login
+
+    </button>
 
    </form>
 
