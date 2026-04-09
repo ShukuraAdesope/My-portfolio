@@ -22,6 +22,10 @@ import EditReference from "./EditReference";
 
 import EditContact from "./EditContact";
 
+import Signin from "./signin";
+import Signup from "./signup";
+import Dashboard from "./dashboard";
+
 import profile from "./IMG_4499.jpeg";
 
 import "./App.css";
@@ -75,6 +79,10 @@ export default function App() {
 
           <li><Link to="/add-reference">Add Reference</Link></li>
 
+          <li><Link to="/signin">Signin</Link></li>
+
+          <li><Link to="/signup">Signup</Link></li>
+
         </ul>
 
       </nav>
@@ -85,42 +93,67 @@ export default function App() {
 
       <Routes>
 
+        {/* AUTH ROUTES */}
+
+        <Route path="/signin" element={<Signin />} />
+
+        <Route path="/signup" element={<Signup />} />
+
+        <Route path="/dashboard" element={<Dashboard />} />
+
+
+
         {/* MAIN PAGES */}
 
         <Route path="/" element={<Home />} />
+
         <Route path="/about" element={<About />} />
+
         <Route path="/projects" element={<Projects />} />
+
         <Route path="/services" element={<Services />} />
+
         <Route path="/contact" element={<Contact />} />
+
 
 
         {/* PROJECT CRUD */}
 
         <Route path="/add-project" element={<AddProject />} />
+
         <Route path="/edit-project/:id" element={<EditProject />} />
+
 
 
         {/* SERVICE CRUD */}
 
         <Route path="/add-service" element={<AddService />} />
+
         <Route path="/edit-service/:id" element={<EditService />} />
+
 
 
         {/* USER CRUD */}
 
         <Route path="/users" element={<Users />} />
+
         <Route path="/add-user" element={<AddUser />} />
+
         <Route path="/edit-user/:id" element={<EditUser />} />
+
 
 
         {/* REFERENCE CRUD */}
 
         <Route path="/references" element={<References />} />
+
         <Route path="/add-reference" element={<AddReference />} />
+
         <Route path="/edit-reference/:id" element={<EditReference />} />
 
 
-        {/* CONTACT CRUD */}
+
+        {/* CONTACT */}
 
         <Route path="/edit-contact/:id" element={<EditContact />} />
 

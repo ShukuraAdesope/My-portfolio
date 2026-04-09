@@ -1,63 +1,101 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import API from "./api/api";
 
 export default function EditReference() {
 
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [title, setTitle] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [position, setPosition] = useState("");
+  const [company, setCompany] = useState("");
+
+
 
   useEffect(() => {
 
-    const savedReferences =
-      JSON.parse(localStorage.getItem("references")) || [];
+    const fetchReference = async () => {
 
-    const referenceToEdit =
-      savedReferences.find(ref => String(ref.id) === String(id));
+      try {
 
-    if (referenceToEdit) {
+        const res = await API.get(`/references/${id}`);
 
-      setTitle(referenceToEdit.title || "");
+        const reference = res.data.data || res.data;
 
-    }
+
+        setFirstname(reference.firstname || "");
+        setLastname(reference.lastname || "");
+        setEmail(reference.email || "");
+        setPosition(reference.position || "");
+        setCompany(reference.company || "");
+
+      }
+      catch (error) {
+
+        console.log(error);
+
+      }
+
+    };
+
+
+    fetchReference();
 
   }, [id]);
 
 
-  const updateReference = (e) => {
+
+  const updateReference = async (e) => {
 
     e.preventDefault();
 
-    const savedReferences =
-      JSON.parse(localStorage.getItem("references")) || [];
+    try {
 
-    const updatedReferences =
-      savedReferences.map(ref => {
+      const token = localStorage.getItem("token");
 
-        if (String(ref.id) === String(id)) {
 
-          return {
-            ...ref,
-            title: title
-          };
+      await API.put(
 
+        `/references/${id}`,
+
+        {
+          firstname,
+          lastname,
+          email,
+          position,
+          company
+        },
+
+        {
+          headers: {
+
+            Authorization: `Bearer ${token}`
+
+          }
         }
 
-        return ref;
+      );
 
-      });
 
-    localStorage.setItem(
-      "references",
-      JSON.stringify(updatedReferences)
-    );
+      alert("Reference updated successfully");
 
-    alert("Reference updated successfully");
 
-    navigate("/references");
+      navigate("/references");
+
+    }
+    catch (error) {
+
+      console.log(error);
+
+      alert("You must login before editing a reference.");
+
+    }
 
   };
+
 
 
   return (
@@ -66,15 +104,53 @@ export default function EditReference() {
 
       <h2>Edit Reference</h2>
 
+
       <form onSubmit={updateReference}>
 
         <input
-          value={title}
-          onChange={(e)=>setTitle(e.target.value)}
+          placeholder="First Name"
+          value={firstname}
+          onChange={(e)=>setFirstname(e.target.value)}
+          required
         />
 
+
+        <input
+          placeholder="Last Name"
+          value={lastname}
+          onChange={(e)=>setLastname(e.target.value)}
+          required
+        />
+
+
+        <input
+          placeholder="Email"
+          value={email}
+          onChange={(e)=>setEmail(e.target.value)}
+          required
+        />
+
+
+        <input
+          placeholder="Position"
+          value={position}
+          onChange={(e)=>setPosition(e.target.value)}
+          required
+        />
+
+
+        <input
+          placeholder="Company"
+          value={company}
+          onChange={(e)=>setCompany(e.target.value)}
+          required
+        />
+
+
         <button type="submit">
-          Update
+
+          Update Reference
+
         </button>
 
       </form>

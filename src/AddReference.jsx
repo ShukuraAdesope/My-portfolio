@@ -1,35 +1,52 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
+import API from "./api/api";
 
 export default function AddReference(){
 
-  const [text,setText]=useState("");
+  const [title,setTitle] = useState("");
+  const [description,setDescription] = useState("");
 
-  const handleSubmit=(e)=>{
+  const handleSubmit = async (e) => {
 
     e.preventDefault();
 
-    const existing =
-      JSON.parse(localStorage.getItem("references")) || [];
+    try {
 
-    const newRef={
+      // get login token
+      const token = localStorage.getItem("token");
 
-      id:Date.now(),
+      await API.post(
 
-      title:text
+        "/references",
 
-    };
+        {
+          title,
+          description
+        },
 
-    localStorage.setItem(
+        {
+          headers: {
 
-      "references",
+            Authorization: `Bearer ${token}`
 
-      JSON.stringify([...existing,newRef])
+          }
+        }
 
-    );
+      );
 
-    alert("Successfully added!");
+      alert("Reference added successfully!");
 
-    setText("");
+      setTitle("");
+      setDescription("");
+
+    }
+    catch(error){
+
+      console.log(error);
+
+      alert("You must login before adding a reference.");
+
+    }
 
   };
 
@@ -43,11 +60,23 @@ export default function AddReference(){
 
         <input
 
-          placeholder="Type anything"
+          placeholder="Reference title"
 
-          value={text}
+          value={title}
 
-          onChange={(e)=>setText(e.target.value)}
+          onChange={(e)=>setTitle(e.target.value)}
+
+          required
+
+        />
+
+        <textarea
+
+          placeholder="Reference description"
+
+          value={description}
+
+          onChange={(e)=>setDescription(e.target.value)}
 
           required
 

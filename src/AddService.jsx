@@ -12,12 +12,27 @@ export default function AddService() {
 
     try {
 
-      await API.post("/services", {
+      // get token from login
+      const token = localStorage.getItem("token");
 
-        title,
-        description
+      await API.post(
 
-      });
+        "/services",
+
+        {
+          title,
+          description
+        },
+
+        {
+          headers: {
+
+            Authorization: `Bearer ${token}`
+
+          }
+        }
+
+      );
 
       alert("Service added successfully!");
 
@@ -25,15 +40,17 @@ export default function AddService() {
       setTitle("");
       setDescription("");
 
-    } catch (error) {
+    }
+    catch (error) {
 
       console.log(error.response?.data);
 
-      alert("Error adding service");
+      alert("You must login before adding a service.");
 
     }
 
   };
+
 
   return (
 
@@ -55,6 +72,7 @@ export default function AddService() {
 
         />
 
+
         <textarea
 
           placeholder="Service description"
@@ -67,7 +85,8 @@ export default function AddService() {
 
         />
 
-        <button>
+
+        <button type="submit">
 
           Add Service
 

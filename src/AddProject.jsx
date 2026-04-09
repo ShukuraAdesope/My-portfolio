@@ -13,26 +13,42 @@ export default function AddProject() {
 
     try {
 
-      await API.post("/projects", {
+      // get token from login
+      const token = localStorage.getItem("token");
 
-        title,
-        description,
-        completion
+      await API.post(
 
-      });
+        "/projects",
+
+        {
+          title,
+          description,
+          completion
+        },
+
+        {
+          headers: {
+
+            Authorization: `Bearer ${token}`
+
+          }
+        }
+
+      );
 
       alert("Project successfully added!");
 
-      // clear form after submit
+      // clear form
       setTitle("");
       setDescription("");
       setCompletion("");
 
-    } catch (error) {
+    }
+    catch (error) {
 
       console.log(error);
 
-      alert("Error adding project");
+      alert("You must login before adding a project.");
 
     }
 
@@ -48,45 +64,30 @@ export default function AddProject() {
       <form onSubmit={handleSubmit}>
 
         <input
-
           placeholder="Project Title"
-
           value={title}
-
           onChange={(e) => setTitle(e.target.value)}
-
           required
-
         />
 
 
         <textarea
-
           placeholder="Project Description"
-
           value={description}
-
           onChange={(e) => setDescription(e.target.value)}
-
           required
-
         />
 
 
         <input
-
           type="date"
-
           value={completion}
-
           onChange={(e) => setCompletion(e.target.value)}
-
           required
-
         />
 
 
-        <button>
+        <button type="submit">
 
           Add Project
 

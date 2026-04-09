@@ -23,7 +23,8 @@ export default function EditService() {
         setTitle(service.title || service.name || "");
         setDescription(service.description || "");
 
-      } catch (err) {
+      }
+      catch (err) {
 
         console.log(err);
 
@@ -42,20 +43,38 @@ export default function EditService() {
 
     try {
 
-      await API.put(`/services/${id}`, {
+      // get login token
+      const token = localStorage.getItem("token");
 
-        title,
-        description
+      await API.put(
 
-      });
+        `/services/${id}`,
+
+        {
+          title,
+          description
+        },
+
+        {
+          headers: {
+
+            Authorization: `Bearer ${token}`
+
+          }
+        }
+
+      );
 
       alert("Service updated successfully");
 
       navigate("/services");
 
-    } catch (err) {
+    }
+    catch (err) {
 
       console.log(err);
+
+      alert("You must login before editing a service.");
 
     }
 
@@ -73,15 +92,21 @@ export default function EditService() {
         <input
           value={title}
           onChange={(e)=>setTitle(e.target.value)}
+          placeholder="Service title"
+          required
         />
 
         <textarea
           value={description}
           onChange={(e)=>setDescription(e.target.value)}
+          placeholder="Service description"
+          required
         />
 
         <button type="submit">
+
           Update
+
         </button>
 
       </form>

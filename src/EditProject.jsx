@@ -33,7 +33,8 @@ export default function EditProject() {
 
         }
 
-      } catch (err) {
+      }
+      catch (err) {
 
         console.log(err);
 
@@ -52,21 +53,39 @@ export default function EditProject() {
 
     try {
 
-      await API.put(`/projects/${id}`, {
+      // get token from login
+      const token = localStorage.getItem("token");
 
-        title,
-        description,
-        completion
+      await API.put(
 
-      });
+        `/projects/${id}`,
+
+        {
+          title,
+          description,
+          completion
+        },
+
+        {
+          headers: {
+
+            Authorization: `Bearer ${token}`
+
+          }
+        }
+
+      );
 
       alert("Project updated successfully");
 
       navigate("/projects");
 
-    } catch (err) {
+    }
+    catch (err) {
 
       console.log(err);
+
+      alert("You must login before editing a project.");
 
     }
 
@@ -85,22 +104,27 @@ export default function EditProject() {
           value={title}
           onChange={(e)=>setTitle(e.target.value)}
           placeholder="Project title"
+          required
         />
 
         <textarea
           value={description}
           onChange={(e)=>setDescription(e.target.value)}
           placeholder="Project description"
+          required
         />
 
         <input
           type="date"
           value={completion}
           onChange={(e)=>setCompletion(e.target.value)}
+          required
         />
 
         <button type="submit">
+
           Update
+
         </button>
 
       </form>
