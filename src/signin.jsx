@@ -26,16 +26,20 @@ function Signin(){
 
    localStorage.setItem("token", res.data.token);
 
-   setMessage("Login successful ✅");
+   setMessage("Login successful");
 
    setTimeout(()=>{
+
     navigate("/dashboard");
-   },1500);
+
+   },1000);
 
   }
   catch(error){
 
-   setMessage("Login failed ❌");
+   console.log(error);
+
+   setMessage("Login failed");
 
   }
 
@@ -64,7 +68,7 @@ function Signin(){
      onChange={(e)=>setPassword(e.target.value)}
     />
 
-    <button>Login</button>
+    <button type="submit">Login</button>
 
    </form>
 

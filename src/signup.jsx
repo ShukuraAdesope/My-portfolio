@@ -18,7 +18,7 @@ function Signup(){
 
   try{
 
-   const res = await axios.post(
+   await axios.post(
     "https://portfolio-backend-i1c6.onrender.com/api/auth/signup",
     {
      firstname,
@@ -28,16 +28,20 @@ function Signup(){
     }
    );
 
-   setMessage("Signup successful ✅");
+   setMessage("Signup successful");
 
    setTimeout(()=>{
+
     navigate("/signin");
-   },1500);
+
+   },1000);
 
   }
   catch(error){
 
-   setMessage("Signup failed ❌");
+   console.log(error);
+
+   setMessage("Signup failed");
 
   }
 
@@ -78,7 +82,7 @@ function Signup(){
      onChange={(e)=>setPassword(e.target.value)}
     />
 
-    <button>Signup</button>
+    <button type="submit">Signup</button>
 
    </form>
 

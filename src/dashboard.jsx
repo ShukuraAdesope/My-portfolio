@@ -12,8 +12,6 @@ function Dashboard(){
 
     <h2>Login Required</h2>
 
-    <p>Please login to access dashboard.</p>
-
     <Link to="/signin">
 
      <button>Go to Login</button>
@@ -32,7 +30,7 @@ function Dashboard(){
 
    <h2>Dashboard</h2>
 
-   <p>You are logged in successfully 🎉</p>
+   <p>You are logged in</p>
 
   </main>
 
