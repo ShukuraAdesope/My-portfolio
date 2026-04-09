@@ -10,7 +10,9 @@ function Signup(){
  const [lastname,setLastname] = useState("");
  const [email,setEmail] = useState("");
  const [password,setPassword] = useState("");
+
  const [message,setMessage] = useState("");
+ const [error,setError] = useState("");
 
  const handleSubmit = async(e)=>{
 
@@ -28,20 +30,20 @@ function Signup(){
     }
    );
 
-   setMessage("Signup successful");
+   setError("");
+   setMessage("Signup successful! Redirecting to login...");
 
    setTimeout(()=>{
-
     navigate("/signin");
-
-   },1000);
+   },1500);
 
   }
-  catch(error){
+  catch(err){
 
-   console.log(error);
+   console.error(err.response?.data || err.message);
 
-   setMessage("Signup failed");
+   setMessage("");
+   setError("Signup failed. Try a different email.");
 
   }
 
@@ -53,7 +55,39 @@ function Signup(){
 
    <h2>Signup</h2>
 
-   {message && <p>{message}</p>}
+   {message && (
+
+    <div style={{
+     background:"#d4edda",
+     padding:"12px",
+     borderRadius:"8px",
+     marginBottom:"10px",
+     color:"#155724",
+     fontWeight:"bold"
+    }}>
+
+     {message}
+
+    </div>
+
+   )}
+
+   {error && (
+
+    <div style={{
+     background:"#f8d7da",
+     padding:"12px",
+     borderRadius:"8px",
+     marginBottom:"10px",
+     color:"#721c24",
+     fontWeight:"bold"
+    }}>
+
+     {error}
+
+    </div>
+
+   )}
 
    <form onSubmit={handleSubmit}>
 
@@ -61,18 +95,21 @@ function Signup(){
      placeholder="firstname"
      value={firstname}
      onChange={(e)=>setFirstname(e.target.value)}
+     required
     />
 
     <input
      placeholder="lastname"
      value={lastname}
      onChange={(e)=>setLastname(e.target.value)}
+     required
     />
 
     <input
      placeholder="email"
      value={email}
      onChange={(e)=>setEmail(e.target.value)}
+     required
     />
 
     <input
@@ -80,9 +117,14 @@ function Signup(){
      placeholder="password"
      value={password}
      onChange={(e)=>setPassword(e.target.value)}
+     required
     />
 
-    <button type="submit">Signup</button>
+    <button type="submit">
+
+     Signup
+
+    </button>
 
    </form>
 
