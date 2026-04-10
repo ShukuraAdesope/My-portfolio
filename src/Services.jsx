@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import API from "./api/api";
 
 export default function Services() {
 
   const [services, setServices] = useState([]);
 
-  // your original services
   const defaultServices = [
 
     {
@@ -56,25 +54,16 @@ export default function Services() {
 
   const loadServices = () => {
 
-    API.get("/services")
+    const savedServices =
+      JSON.parse(localStorage.getItem("services")) || [];
 
-      .then((res) => {
+    setServices([
 
-        setServices([
+      ...defaultServices,
 
-          ...defaultServices,
+      ...savedServices
 
-          ...res.data.data
-
-        ]);
-
-      })
-
-      .catch(() => {
-
-        setServices(defaultServices);
-
-      });
+    ]);
 
   };
 
@@ -87,9 +76,23 @@ export default function Services() {
 
 
 
-  const deleteService = async (id) => {
+  const deleteService = (id) => {
 
-    await API.delete(`/services/${id}`);
+    const updatedServices =
+      services.filter(service => service.id !== id);
+
+    const localOnly =
+      updatedServices.filter(service =>
+        service.id.toString().length > 10
+      );
+
+    localStorage.setItem(
+
+      "services",
+
+      JSON.stringify(localOnly)
+
+    );
 
     alert("Service deleted successfully");
 
@@ -137,20 +140,23 @@ export default function Services() {
             </p>
 
 
-            {/* show buttons only for database services */}
-
-            {service.id.length > 10 && (
+            {service.id.toString().length > 10 && (
 
               <>
 
                 <Link to={`/edit-service/${service.id}`}>
+
                   <button>Edit</button>
+
                 </Link>
+
 
                 <button
                   onClick={() => deleteService(service.id)}
                 >
+
                   Delete
+
                 </button>
 
               </>

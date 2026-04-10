@@ -1,93 +1,90 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import API from "./api/api";
 
 export default function EditProject() {
 
   const { id } = useParams();
+
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
+
   const [description, setDescription] = useState("");
+
   const [completion, setCompletion] = useState("");
+
 
   useEffect(() => {
 
-    const fetchProject = async () => {
+    const savedProjects =
 
-      try {
+      JSON.parse(localStorage.getItem("projects")) || [];
 
-        const res = await API.get(`/projects/${id}`);
 
-        const project = res.data.data || res.data;
+    const project =
 
-        setTitle(project.title || "");
-        setDescription(project.description || "");
+      savedProjects.find(p => p.id.toString() === id);
 
-        // format date for input field
-        if (project.completion) {
 
-          setCompletion(
-            project.completion.substring(0,10)
-          );
+    if (project) {
 
-        }
+      setTitle(project.title);
 
-      }
-      catch (err) {
+      setDescription(project.description);
 
-        console.log(err);
+      setCompletion(project.completion);
 
-      }
-
-    };
-
-    fetchProject();
+    }
 
   }, [id]);
 
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = (e) => {
 
     e.preventDefault();
 
-    try {
 
-      // get token from login
-      const token = localStorage.getItem("token");
+    const savedProjects =
 
-      await API.put(
+      JSON.parse(localStorage.getItem("projects")) || [];
 
-        `/projects/${id}`,
 
-        {
-          title,
-          description,
-          completion
-        },
+    const updatedProjects =
 
-        {
-          headers: {
+      savedProjects.map(project =>
 
-            Authorization: `Bearer ${token}`
+        project.id.toString() === id
 
-          }
-        }
+          ? {
+
+              ...project,
+
+              title,
+
+              description,
+
+              completion
+
+            }
+
+          : project
 
       );
 
-      alert("Project updated successfully");
 
-      navigate("/projects");
+    localStorage.setItem(
 
-    }
-    catch (err) {
+      "projects",
 
-      console.log(err);
+      JSON.stringify(updatedProjects)
 
-      alert("You must login before editing a project.");
+    );
 
-    }
+
+    alert("Project updated successfully");
+
+
+    navigate("/projects");
 
   };
 
@@ -98,34 +95,55 @@ export default function EditProject() {
 
       <h2>Edit Project</h2>
 
+
       <form onSubmit={handleUpdate}>
 
+
         <input
+
           value={title}
+
           onChange={(e)=>setTitle(e.target.value)}
+
           placeholder="Project title"
+
           required
+
         />
+
 
         <textarea
+
           value={description}
+
           onChange={(e)=>setDescription(e.target.value)}
+
           placeholder="Project description"
+
           required
+
         />
 
+
         <input
+
           type="date"
+
           value={completion}
+
           onChange={(e)=>setCompletion(e.target.value)}
+
           required
+
         />
+
 
         <button type="submit">
 
           Update
 
         </button>
+
 
       </form>
 

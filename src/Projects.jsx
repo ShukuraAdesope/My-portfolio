@@ -1,6 +1,6 @@
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import API from "./api/api";
 
 export default function Projects() {
 
@@ -42,34 +42,45 @@ export default function Projects() {
 
   ];
 
-
   const loadProjects = () => {
 
-    API.get("/projects")
-      .then((res) => {
+    const savedProjects =
+      JSON.parse(localStorage.getItem("projects")) || [];
 
-        setProjects([
-          ...defaultProjects,
-          ...res.data.data
-        ]);
+    setProjects([
 
-      })
-      .catch(() => {
-        setProjects(defaultProjects);
-      });
+      ...defaultProjects,
+
+      ...savedProjects
+
+    ]);
 
   };
 
-
   useEffect(() => {
+
     loadProjects();
+
   }, []);
 
 
+  const deleteProject = (id) => {
 
-  const deleteProject = async (id) => {
+    const updatedProjects =
+      projects.filter(project => project.id !== id);
 
-    await API.delete(`/projects/${id}`);
+    const localOnly =
+      updatedProjects.filter(project =>
+        project.id.toString().length > 10
+      );
+
+    localStorage.setItem(
+
+      "projects",
+
+      JSON.stringify(localOnly)
+
+    );
 
     alert("Project deleted successfully");
 
@@ -123,24 +134,36 @@ export default function Projects() {
             {project.completion && (
 
               <p>
-                Completion date:{" "}
+
+                Completion date:
+
+                {" "}
+
                 {new Date(project.completion).toLocaleDateString()}
+
               </p>
 
             )}
 
 
-            {/* Only show buttons for database projects */}
-            {project.id.length > 10 && (
+            {/* show edit/delete only for added projects */}
+            {project.id.toString().length > 10 && (
 
               <>
+
                 <Link to={`/edit-project/${project.id}`}>
+
                   <button>Edit</button>
+
                 </Link>
 
+
                 <button onClick={() => deleteProject(project.id)}>
+
                   Delete
+
                 </button>
+
               </>
 
             )}

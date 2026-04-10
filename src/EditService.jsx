@@ -1,82 +1,84 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import API from "./api/api";
 
 export default function EditService() {
 
   const { id } = useParams();
+
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
+
   const [description, setDescription] = useState("");
+
 
   useEffect(() => {
 
-    const fetchService = async () => {
+    const savedServices =
 
-      try {
+      JSON.parse(localStorage.getItem("services")) || [];
 
-        const res = await API.get(`/services/${id}`);
 
-        const service = res.data.data || res.data;
+    const service =
 
-        setTitle(service.title || service.name || "");
-        setDescription(service.description || "");
+      savedServices.find(s => s.id.toString() === id);
 
-      }
-      catch (err) {
 
-        console.log(err);
+    if (service) {
 
-      }
+      setTitle(service.title);
 
-    };
+      setDescription(service.description);
 
-    fetchService();
+    }
 
   }, [id]);
 
 
-  const updateService = async (e) => {
+  const updateService = (e) => {
 
     e.preventDefault();
 
-    try {
 
-      // get login token
-      const token = localStorage.getItem("token");
+    const savedServices =
 
-      await API.put(
+      JSON.parse(localStorage.getItem("services")) || [];
 
-        `/services/${id}`,
 
-        {
-          title,
-          description
-        },
+    const updatedServices =
 
-        {
-          headers: {
+      savedServices.map(service =>
 
-            Authorization: `Bearer ${token}`
+        service.id.toString() === id
 
-          }
-        }
+          ? {
+
+              ...service,
+
+              title,
+
+              description
+
+            }
+
+          : service
 
       );
 
-      alert("Service updated successfully");
 
-      navigate("/services");
+    localStorage.setItem(
 
-    }
-    catch (err) {
+      "services",
 
-      console.log(err);
+      JSON.stringify(updatedServices)
 
-      alert("You must login before editing a service.");
+    );
 
-    }
+
+    alert("Service updated successfully");
+
+
+    navigate("/services");
 
   };
 
@@ -87,27 +89,42 @@ export default function EditService() {
 
       <h2>Edit Service</h2>
 
+
       <form onSubmit={updateService}>
 
+
         <input
+
           value={title}
+
           onChange={(e)=>setTitle(e.target.value)}
+
           placeholder="Service title"
+
           required
+
         />
 
+
         <textarea
+
           value={description}
+
           onChange={(e)=>setDescription(e.target.value)}
+
           placeholder="Service description"
+
           required
+
         />
+
 
         <button type="submit">
 
           Update
 
         </button>
+
 
       </form>
 
