@@ -1,149 +1,117 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import API from "./api/api";
 
 export default function EditReference() {
 
   const { id } = useParams();
+
   const navigate = useNavigate();
 
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [email, setEmail] = useState("");
-  const [position, setPosition] = useState("");
-  const [company, setCompany] = useState("");
+  const [title, setTitle] = useState("");
 
+  const [description, setDescription] = useState("");
 
 
   useEffect(() => {
 
-    const fetchReference = async () => {
-
-      try {
-
-        const res = await API.get(`/references/${id}`);
-
-        const reference = res.data.data || res.data;
+    const savedReferences =
+      JSON.parse(localStorage.getItem("references")) || [];
 
 
-        setFirstname(reference.firstname || "");
-        setLastname(reference.lastname || "");
-        setEmail(reference.email || "");
-        setPosition(reference.position || "");
-        setCompany(reference.company || "");
-
-      }
-      catch (error) {
-
-        console.log(error);
-
-      }
-
-    };
+    const reference =
+      savedReferences.find(ref => ref.id.toString() === id);
 
 
-    fetchReference();
+    if (reference) {
+
+      setTitle(reference.title);
+
+      setDescription(reference.description);
+
+    }
 
   }, [id]);
 
 
-
-  const updateReference = async (e) => {
+  const updateReference = (e) => {
 
     e.preventDefault();
 
-    try {
 
-      const token = localStorage.getItem("token");
+    const savedReferences =
+      JSON.parse(localStorage.getItem("references")) || [];
 
 
-      await API.put(
+    const updatedReferences =
+      savedReferences.map(ref =>
 
-        `/references/${id}`,
+        ref.id.toString() === id
 
-        {
-          firstname,
-          lastname,
-          email,
-          position,
-          company
-        },
+          ? {
 
-        {
-          headers: {
+              ...ref,
 
-            Authorization: `Bearer ${token}`
+              title,
 
-          }
-        }
+              description
+
+            }
+
+          : ref
 
       );
 
 
-      alert("Reference updated successfully");
+    localStorage.setItem(
+
+      "references",
+
+      JSON.stringify(updatedReferences)
+
+    );
 
 
-      navigate("/references");
+    alert("Reference updated successfully");
 
-    }
-    catch (error) {
 
-      console.log(error);
-
-      alert("You must login before editing a reference.");
-
-    }
+    navigate("/references");
 
   };
 
 
-
   return (
 
-    <main className="page">
+    <main className="form-page">
 
       <h2>Edit Reference</h2>
 
 
       <form onSubmit={updateReference}>
 
+
         <input
-          placeholder="First Name"
-          value={firstname}
-          onChange={(e)=>setFirstname(e.target.value)}
+
+          placeholder="Reference title"
+
+          value={title}
+
+          onChange={(e)=>setTitle(e.target.value)}
+
           required
+
         />
 
 
-        <input
-          placeholder="Last Name"
-          value={lastname}
-          onChange={(e)=>setLastname(e.target.value)}
+        <textarea
+
+          placeholder="Reference description"
+
+          value={description}
+
+          onChange={(e)=>setDescription(e.target.value)}
+
           required
-        />
 
-
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e)=>setEmail(e.target.value)}
-          required
-        />
-
-
-        <input
-          placeholder="Position"
-          value={position}
-          onChange={(e)=>setPosition(e.target.value)}
-          required
-        />
-
-
-        <input
-          placeholder="Company"
-          value={company}
-          onChange={(e)=>setCompany(e.target.value)}
-          required
         />
 
 
@@ -152,6 +120,7 @@ export default function EditReference() {
           Update Reference
 
         </button>
+
 
       </form>
 
