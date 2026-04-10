@@ -22,10 +22,6 @@ import EditReference from "./EditReference";
 
 import EditContact from "./EditContact";
 
-import Signin from "./signin";
-import Signup from "./signup";
-import Dashboard from "./dashboard";
-
 import profile from "./IMG_4499.jpeg";
 
 import "./App.css";
@@ -66,21 +62,12 @@ export default function App() {
           <li><Link to="/add-user">Add User</Link></li>
           <li><Link to="/add-reference">Add Reference</Link></li>
 
-          <li><Link to="/signin">Signin</Link></li>
-          <li><Link to="/signup">Signup</Link></li>
-          <li><Link to="/dashboard">Dashboard</Link></li>
-
         </ul>
 
       </nav>
 
 
       <Routes>
-
-        {/* AUTH */}
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
 
         {/* MAIN */}
         <Route path="/" element={<Home />} />
