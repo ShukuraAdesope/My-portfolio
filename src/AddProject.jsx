@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import API from "./api/api";
 
 export default function AddProject() {
 
@@ -7,50 +6,51 @@ export default function AddProject() {
   const [description, setDescription] = useState("");
   const [completion, setCompletion] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
 
     e.preventDefault();
 
-    try {
+    // get existing projects from localStorage
+    const existingProjects =
+      JSON.parse(localStorage.getItem("projects")) || [];
 
-      // get token from login
-      const token = localStorage.getItem("token");
+    // create new project object
+    const newProject = {
 
-      await API.post(
+      id: Date.now(),
 
-        "/projects",
+      title,
 
-        {
-          title,
-          description,
-          completion
-        },
+      description,
 
-        {
-          headers: {
+      completion
 
-            Authorization: `Bearer ${token}`
+    };
 
-          }
-        }
+    // add new project
+    const updatedProjects = [
 
-      );
+      ...existingProjects,
 
-      alert("Project successfully added!");
+      newProject
 
-      // clear form
-      setTitle("");
-      setDescription("");
-      setCompletion("");
+    ];
 
-    }
-    catch (error) {
+    // save back to localStorage
+    localStorage.setItem(
 
-      console.log(error);
+      "projects",
 
-      alert("You must login before adding a project.");
+      JSON.stringify(updatedProjects)
 
-    }
+    );
+
+    alert("Project successfully added!");
+
+    // clear form
+    setTitle("");
+    setDescription("");
+    setCompletion("");
 
   };
 

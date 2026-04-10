@@ -1,53 +1,51 @@
 import React, { useState } from "react";
-import API from "./api/api";
 
 export default function AddService() {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
 
     e.preventDefault();
 
-    try {
+    // get existing services
+    const existingServices =
+      JSON.parse(localStorage.getItem("services")) || [];
 
-      // get token from login
-      const token = localStorage.getItem("token");
+    // create new service
+    const newService = {
 
-      await API.post(
+      id: Date.now(),
 
-        "/services",
+      title,
 
-        {
-          title,
-          description
-        },
+      description
 
-        {
-          headers: {
+    };
 
-            Authorization: `Bearer ${token}`
+    // save updated list
+    const updatedServices = [
 
-          }
-        }
+      ...existingServices,
 
-      );
+      newService
 
-      alert("Service added successfully!");
+    ];
 
-      // clear form
-      setTitle("");
-      setDescription("");
+    localStorage.setItem(
 
-    }
-    catch (error) {
+      "services",
 
-      console.log(error.response?.data);
+      JSON.stringify(updatedServices)
 
-      alert("You must login before adding a service.");
+    );
 
-    }
+    alert("Service added successfully!");
+
+    // clear form
+    setTitle("");
+    setDescription("");
 
   };
 

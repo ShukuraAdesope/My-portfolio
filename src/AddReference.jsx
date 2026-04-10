@@ -1,52 +1,51 @@
 import React, { useState } from "react";
-import API from "./api/api";
 
 export default function AddReference(){
 
   const [title,setTitle] = useState("");
   const [description,setDescription] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
 
     e.preventDefault();
 
-    try {
+    // get existing references
+    const existingReferences =
+      JSON.parse(localStorage.getItem("references")) || [];
 
-      // get login token
-      const token = localStorage.getItem("token");
+    // create new reference object
+    const newReference = {
 
-      await API.post(
+      id: Date.now(),
 
-        "/references",
+      title,
 
-        {
-          title,
-          description
-        },
+      description
 
-        {
-          headers: {
+    };
 
-            Authorization: `Bearer ${token}`
+    // update list
+    const updatedReferences = [
 
-          }
-        }
+      ...existingReferences,
 
-      );
+      newReference
 
-      alert("Reference added successfully!");
+    ];
 
-      setTitle("");
-      setDescription("");
+    // save to localStorage
+    localStorage.setItem(
 
-    }
-    catch(error){
+      "references",
 
-      console.log(error);
+      JSON.stringify(updatedReferences)
 
-      alert("You must login before adding a reference.");
+    );
 
-    }
+    alert("Reference added successfully!");
+
+    setTitle("");
+    setDescription("");
 
   };
 
